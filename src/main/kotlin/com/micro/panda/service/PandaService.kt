@@ -23,8 +23,13 @@ class PandaService(
         return accountConverter.convertToDto(accountEntity)
     }
 
-//    fun update(dto: AccountDto): AccountDto {
-//        val userEntity = userService.findOrCreate(dto.userId)
-//
-//    }
+    fun update(dto: AccountDto): AccountDto {
+        val accountEntity = accountRepository.save(accountConverter.convertToEntity(dto))
+        return accountConverter.convertToDto(accountEntity)
+    }
+
+    fun delete(dto: AccountDto) {
+        val accountEntity = accountRepository.findById(dto.id!!)
+        accountRepository.delete(accountEntity.get())
+    }
 }
