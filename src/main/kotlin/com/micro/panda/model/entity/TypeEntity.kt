@@ -3,10 +3,10 @@ package com.micro.panda.model.entity
 import jakarta.persistence.*
 
 @Entity
-@Table(name = "emails")
-data class MailEntity(
+@Table(name = "types")
+data class TypeEntity (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
-    var email: String? = null,
+    var type: String? = null,
 )

@@ -5,23 +5,28 @@ import java.sql.Timestamp
 
 @Entity
 @Table(name = "accounts")
-class AccountEntity(
+data class AccountEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    var user: UserEntity? = null,
 
     var name: String? = null,
     var account: String? = null,
     var password: String? = null,
     var link: String? = null,
     var description: String? = null,
-    var mail: String? = null,
-    var type: String? = null,
     var updated: Timestamp? = null,
 
-    ) {
-}
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    var userEntity: UserEntity? = null,
+
+    @ManyToOne
+    @JoinColumn(name = "email_id")
+    var emailEntity: MailEntity? = null,
+
+    @ManyToOne
+    @JoinColumn(name = "type_id")
+    var typeEntity: TypeEntity? = null,
+
+    )

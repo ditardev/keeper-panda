@@ -12,29 +12,37 @@ CREATE TABLE IF NOT EXISTS users
     uuid uuid not null unique
 );
 
-CREATE TABLE IF NOT EXISTS mails
+CREATE TABLE IF NOT EXISTS emails
+(
+    id    SERIAL PRIMARY KEY,
+    email VARCHAR(200) NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS types
 (
     id   SERIAL PRIMARY KEY,
-    mail VARCHAR(200) NOT NULL UNIQUE
+    type VARCHAR(60) NOT NULL UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS accounts
 (
     id          SERIAL PRIMARY KEY,
     user_id     INTEGER     NOT NULL,
-    name        VARCHAR(90) NOT NULL,
+    email_id    INTEGER     NOT NULL,
+    type_id     INTEGER     NOT NULL,
     account     VARCHAR(50),
+    name        VARCHAR(90) NOT NULL,
     password    VARCHAR(30) NOT NULL,
     link        text,
     description text,
-    mail        INTEGER     NOT NULL,
-    type        VARCHAR(10) NOT NULL,
     updated     timestamp   NOT NULL DEFAULT current_timestamp
 );
 
 ALTER TABLE accounts
     ADD FOREIGN KEY (user_id) REFERENCES users (id);
 ALTER TABLE accounts
-    ADD FOREIGN KEY (mail) REFERENCES mails (id);
+    ADD FOREIGN KEY (email_id) REFERENCES emails (id);
+ALTER TABLE accounts
+    ADD FOREIGN KEY (type_id) REFERENCES types (id);
 
 

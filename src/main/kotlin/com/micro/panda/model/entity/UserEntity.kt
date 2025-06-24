@@ -5,10 +5,9 @@ import java.util.*
 
 @Entity
 @Table(name = "users")
-class UserEntity (
+data class UserEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
-    var uuid: UUID? = null
-){
-}
+    var uuid: UUID? = null,
+)
