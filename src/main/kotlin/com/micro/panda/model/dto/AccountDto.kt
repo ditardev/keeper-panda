@@ -1,7 +1,5 @@
 package com.micro.panda.model.dto
 
-import com.micro.panda.model.Type
-
 class AccountDto(
     val id: Int? = null,
     val userId: String? = null,
@@ -11,5 +9,6 @@ class AccountDto(
     val link: String? = null,
     val description: String? = null,
     val mail: String? = null,
-    val type: Type? = null
+    val type: String? = null,
+    val updated: String? = null
 ) {}

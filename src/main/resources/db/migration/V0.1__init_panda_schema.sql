@@ -8,8 +8,8 @@ DROP TABLE IF EXISTS mails;
 
 CREATE TABLE IF NOT EXISTS users
 (
-    id      SERIAL PRIMARY KEY,
-    user_id VARCHAR(100) not null unique
+    id   SERIAL PRIMARY KEY,
+    uuid uuid not null unique
 );
 
 CREATE TABLE IF NOT EXISTS mails
@@ -27,8 +27,9 @@ CREATE TABLE IF NOT EXISTS accounts
     password    VARCHAR(30) NOT NULL,
     link        text,
     description text,
-    mail        integer     NOT NULL,
-    type        VARCHAR(10) NOT NULL DEFAULT 'TEMP'
+    mail        INTEGER     NOT NULL,
+    type        VARCHAR(10) NOT NULL,
+    updated     timestamp   NOT NULL DEFAULT current_timestamp
 );
 
 ALTER TABLE accounts
