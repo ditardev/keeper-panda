@@ -1,7 +1,8 @@
 package com.micro.panda.controller
 
+import com.micro.panda.appconfig.model.ApiRequest
 import com.micro.panda.appconfig.model.ApiResponse
-import com.micro.panda.model.dto.AccountDto
+import com.micro.panda.appconfig.model.RequestInfoDto
 import com.micro.panda.service.PandaService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
@@ -16,8 +17,8 @@ class PandaController(
 ) {
 
     @PostMapping("/all")
-    fun signIn(@RequestBody request: AccountDto): ResponseEntity<*>? {
-        val data = pandaService.selectAll(request.userId)
+    fun selectAll(@RequestBody request: ApiRequest<RequestInfoDto>): ResponseEntity<*>? {
+        val data = pandaService.selectAll(request.userUUID)
         return ResponseEntity.ok(ApiResponse.Success(true, data))
     }
 }

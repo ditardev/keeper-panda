@@ -4,7 +4,6 @@ import java.sql.Timestamp
 
 data class AccountDto(
     val id: Long? = null,
-    val userId: String? = null,
     val name: String? = null,
     val account: String? = null,
     val password: String? = null,

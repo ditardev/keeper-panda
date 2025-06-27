@@ -2,6 +2,7 @@ package com.micro.panda.service.converter
 
 import com.micro.panda.model.dto.AccountDto
 import com.micro.panda.model.entity.AccountEntity
+import com.micro.panda.model.entity.UserEntity
 import com.micro.panda.service.MailService
 import com.micro.panda.service.TypeService
 import com.micro.panda.service.UserService
@@ -10,12 +11,17 @@ import java.util.stream.Collectors
 
 @Component
 class AccountConverter(
-    private val userService: UserService,
     private val mailService: MailService,
     private val typeService: TypeService,
 ) {
 
-    fun convertToEntity(dto: AccountDto): AccountEntity {
+    fun convertToEntities(userEntity: UserEntity, dtos: List<AccountDto>): List<AccountEntity> {
+        return dtos.stream()
+            .map { it -> convertToEntity(userEntity, it) }
+            .collect(Collectors.toList())
+    }
+
+    fun convertToEntity(userEntity: UserEntity, dto: AccountDto): AccountEntity {
         return AccountEntity(
             id = dto.id,
             name = dto.name,
@@ -24,7 +30,7 @@ class AccountConverter(
             link = dto.link,
             description = dto.description,
             updated = dto.updated,
-            userEntity = userService.findOrCreate(dto.userId),
+            userEntity = userEntity,
             emailEntity = mailService.findOrCreate(dto.email),
             typeEntity = typeService.findOrCreate(dto.type),
         )
@@ -38,6 +44,7 @@ class AccountConverter(
 
     fun convertToDto(entity: AccountEntity): AccountDto {
         return AccountDto(
+            id = entity.id,
             name = entity.name,
             account = entity.account,
             password = entity.password,

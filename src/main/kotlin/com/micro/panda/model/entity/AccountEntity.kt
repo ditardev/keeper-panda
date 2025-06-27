@@ -29,4 +29,8 @@ data class AccountEntity(
     @JoinColumn(name = "type_id")
     var typeEntity: TypeEntity? = null,
 
-    )
+    ) : Comparable<AccountEntity> {
+    override fun compareTo(other: AccountEntity): Int {
+        return compareValuesBy(this, other, { it.name }, { it.password })
+    }
+}
