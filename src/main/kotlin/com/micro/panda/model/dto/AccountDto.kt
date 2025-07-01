@@ -11,5 +11,5 @@ data class AccountDto(
     val description: String? = null,
     val email: String? = null,
     val type: String? = null,
-    val updated: Timestamp? = null,
+    val updated: Timestamp? = Timestamp(System.currentTimeMillis()),
 )

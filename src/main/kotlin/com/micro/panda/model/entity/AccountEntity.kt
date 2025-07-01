@@ -15,7 +15,7 @@ data class AccountEntity(
     var password: String? = null,
     var link: String? = null,
     var description: String? = null,
-    var updated: Timestamp? = null,
+    var updated: Timestamp? = Timestamp(System.currentTimeMillis()),
 
     @ManyToOne
     @JoinColumn(name = "user_id")

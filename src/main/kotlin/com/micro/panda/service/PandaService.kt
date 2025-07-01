@@ -1,5 +1,7 @@
 package com.micro.panda.service
 
+import com.hadiyarajesh.spring_security_demo.app.exception.ResourceNotFoundException
+import com.micro.panda.appconfig.exceptions.ResourceAlreadyExistException
 import com.micro.panda.model.dto.AccountDto
 import com.micro.panda.model.dto.UploadDto
 import com.micro.panda.repository.AccountRepository
@@ -29,30 +31,38 @@ class PandaService(
 
     fun create(userUUID: String, accountDto: AccountDto): AccountDto {
         val userEntity = userService.findOrCreate(userUUID)
+        if(accountRepository.existsByUserEntityAndName(userEntity, accountDto.name!!)){
+            throw ResourceAlreadyExistException("Account with name ${accountDto.name} already exists")
+        }
         val accountEntity = accountRepository.save(converter.convertToEntity(userEntity, accountDto))
         return converter.convertToDto(accountEntity)
     }
 
     fun update(userUUID: String, accountDto: AccountDto): AccountDto {
         val userEntity = userService.findOrCreate(userUUID)
+        if(!accountRepository.notExistById(accountDto.id!!)){
+            throw ResourceNotFoundException("Account with name ${accountDto.name} not found")
+        }
         val accountEntity = accountRepository.save(converter.convertToEntity(userEntity, accountDto))
         return converter.convertToDto(accountEntity)
     }
 
-    fun delete(userUUID: String, accountDto: AccountDto) {
+    fun delete(userUUID: String, idList: List<Long>): Int {
         val userEntity = userService.findOrCreate(userUUID)
-        val accountEntity = accountRepository.findById(accountDto.id!!)
-        accountRepository.delete(accountEntity.get())
-    }
-
-    fun deleteList(userUUID: String, accountsDto: ArrayList<AccountDto>) {
-        val userEntity = userService.findOrCreate(userUUID)
-        val accountEntities = accountConverter.convertToEntities(userEntity, accountsDto)
-        accountRepository.deleteAllByUserEntity(userEntity)
+        val existedIdList: List<Long> = emptyList()
+        idList.forEach { id ->
+            if(accountRepository.notExistsByUserEntityAndId(userEntity, id)){
+                throw ResourceNotFoundException("Account with id $id not found")
+            }
+            existedIdList.plus(id)
+       }
+        existedIdList.forEach { id -> accountRepository.deleteById(id) }
+        return existedIdList.size
     }
 
     fun upload(userUUID: String, uploadDto: UploadDto): UploadDto {
         val userEntity = userService.findOrCreate(userUUID)
+
         val dtoEntities = converter.convertToEntities(userEntity, uploadDto.inputList)
         val accountsEntities = accountRepository.findAllByUserEntity(userEntity)
 

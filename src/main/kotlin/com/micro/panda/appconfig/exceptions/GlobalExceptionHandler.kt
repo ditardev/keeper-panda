@@ -17,5 +17,12 @@ class GlobalExceptionHandler : ResponseEntityExceptionHandler() {
             e.httpStatus
         )
     }
+    @ExceptionHandler(ResourceAlreadyExistException::class)
+    fun handleResourceAlreadyExistException(e: ResourceAlreadyExistException): ResponseEntity<ApiResponse.Error> {
+        return ResponseEntity(
+            ApiResponse.Error(status = false, message = e.message),
+            e.httpStatus
+        )
+    }
 
 }
