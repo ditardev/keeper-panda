@@ -40,7 +40,7 @@ class PandaService(
 
     fun update(userUUID: String, accountDto: AccountDto): AccountDto {
         val userEntity = userService.findOrCreate(userUUID)
-        if(!accountRepository.notExistById(accountDto.id!!)){
+        if(!accountRepository.existsByUserEntityAndId(userEntity,accountDto.id!!)){
             throw ResourceNotFoundException("Account with name ${accountDto.name} not found")
         }
         val accountEntity = accountRepository.save(converter.convertToEntity(userEntity, accountDto))
@@ -49,13 +49,13 @@ class PandaService(
 
     fun delete(userUUID: String, idList: List<Long>): Int {
         val userEntity = userService.findOrCreate(userUUID)
-        val existedIdList: List<Long> = emptyList()
-        idList.forEach { id ->
-            if(accountRepository.notExistsByUserEntityAndId(userEntity, id)){
+        val existedIdList = mutableListOf<Long>()
+        for(id in idList){
+            if(!accountRepository.existsByUserEntityAndId(userEntity, id)){
                 throw ResourceNotFoundException("Account with id $id not found")
             }
-            existedIdList.plus(id)
-       }
+            existedIdList.add(id)
+        }
         existedIdList.forEach { id -> accountRepository.deleteById(id) }
         return existedIdList.size
     }
