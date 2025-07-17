@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("\${server.endpoint.main}")
-class PandaController(
+@RequestMapping("\${server.endpoint.main}/accounts")
+class PandaAccountsController(
     private val pandaService: PandaService
 ) {
 
