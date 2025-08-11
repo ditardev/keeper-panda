@@ -1,0 +1,18 @@
+server:
+  appName: keeper-panda-service
+  name: panda
+  port: 0
+  ip: 192.168.100.8
+  endpoint:
+    main: api/panda
+  db:
+    port: 5432
+    name: postgres
+    schema: panda
+    user: postgres
+    password: postgrespw
+  logging:
+    level: info
+    filePath: ../logs/panda/panda.log
+  pg:
+    pattern: Aaaaaaaaaa00000

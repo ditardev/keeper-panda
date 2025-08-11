@@ -1,8 +1,9 @@
 #Spring Panda Properties
 spring:
   profiles:
-    active: dev
-  #    active: prod
+    active: lime
+#    active: dev
+#    active: prod
 
   application:
     name: ${server.appName}
