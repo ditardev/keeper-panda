@@ -37,9 +37,10 @@ class PandaAccountsController(
         return ResponseEntity.ok(ApiResponse.Success(true, data))
     }
 
-    @DeleteMapping("/delete")
+    @PostMapping("/delete")
     fun delete(@RequestBody request: ApiRequest<List<Long>>): ResponseEntity<*>? {
         val data = pandaService.delete(request.userUUID, request.data)
         return ResponseEntity.ok(ApiResponse.Success(true, data))
     }
+
 }
