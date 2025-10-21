@@ -7,7 +7,7 @@ server:
   db:
     port: 11984
     name: keeper-postgres-db
-    schema: auth
+    schema: panda
     user: ditar
     password: keeperAdmin1984
   logging:
