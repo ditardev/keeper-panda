@@ -8,9 +8,12 @@ interface AccountRepository : JpaRepository<AccountEntity, Long> {
 
     fun findAllByUserEntity(userEntity: UserEntity): List<AccountEntity>
 
+
     fun deleteAllByUserEntity(userEntity: UserEntity)
 
     fun existsByUserEntityAndName(userEntity: UserEntity, name: String): Boolean
     fun existsByUserEntityAndId(userEntity: UserEntity, id: Long): Boolean
+
+    fun countByUserEntity(userEntity: UserEntity): Long
 
 }

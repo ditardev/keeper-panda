@@ -3,7 +3,11 @@ package com.micro.panda.service
 import com.hadiyarajesh.spring_security_demo.app.exception.ResourceNotFoundException
 import com.micro.panda.appconfig.exceptions.ResourceAlreadyExistException
 import com.micro.panda.model.dto.AccountDto
+import com.micro.panda.model.ImportType
 import com.micro.panda.model.dto.UploadDto
+import com.micro.panda.model.UploadFileDto
+import com.micro.panda.model.entity.AccountEntity
+import com.micro.panda.model.entity.UserEntity
 import com.micro.panda.repository.AccountRepository
 import com.micro.panda.service.converter.AccountConverter
 import org.springframework.stereotype.Service
@@ -14,7 +18,6 @@ class PandaService(
     private val accountRepository: AccountRepository,
     private val converter: AccountConverter,
     private val userService: UserService,
-    private val accountConverter: AccountConverter,
 ) {
 
     fun selectAll(userUUID: String?): List<AccountDto>? {
@@ -31,7 +34,7 @@ class PandaService(
 
     fun create(userUUID: String, accountDto: AccountDto): AccountDto {
         val userEntity = userService.findOrCreate(userUUID)
-        if(accountRepository.existsByUserEntityAndName(userEntity, accountDto.name!!)){
+        if (accountRepository.existsByUserEntityAndName(userEntity, accountDto.name!!)) {
             throw ResourceAlreadyExistException("Account with name ${accountDto.name} already exists")
         }
         val accountEntity = accountRepository.save(converter.convertToEntity(userEntity, accountDto))
@@ -40,7 +43,7 @@ class PandaService(
 
     fun update(userUUID: String, accountDto: AccountDto): AccountDto {
         val userEntity = userService.findOrCreate(userUUID)
-        if(!accountRepository.existsByUserEntityAndId(userEntity,accountDto.id!!)){
+        if (!accountRepository.existsByUserEntityAndId(userEntity, accountDto.id!!)) {
             throw ResourceNotFoundException("Account with name ${accountDto.name} not found")
         }
         val accountEntity = accountRepository.save(converter.convertToEntity(userEntity, accountDto))
@@ -50,8 +53,8 @@ class PandaService(
     fun delete(userUUID: String, idList: List<Long>): Int {
         val userEntity = userService.findOrCreate(userUUID)
         val existedIdList = mutableListOf<Long>()
-        for(id in idList){
-            if(!accountRepository.existsByUserEntityAndId(userEntity, id)){
+        for (id in idList) {
+            if (!accountRepository.existsByUserEntityAndId(userEntity, id)) {
                 throw ResourceNotFoundException("Account with id $id not found")
             }
             existedIdList.add(id)
@@ -72,18 +75,18 @@ class PandaService(
 
         return UploadDto(
             count = abs(accountsEntities.size - resultEntitiesList.size),
-            inputList = accountConverter.convertToDtos(savedEntities)
+            inputList = converter.convertToDtos(savedEntities)
         )
     }
 
     fun replace(userUUID: String, uploadDto: UploadDto): UploadDto {
         val userEntity = userService.findOrCreate(userUUID)
-        val accountEntities = accountConverter.convertToEntities(userEntity, uploadDto.inputList)
+        val accountEntities = converter.convertToEntities(userEntity, uploadDto.inputList)
 
         accountRepository.deleteAllByUserEntity(userEntity)
 
         val savedEntities = accountRepository.saveAll(accountEntities)
-        val savedDtoList = accountConverter.convertToDtos(savedEntities)
+        val savedDtoList = converter.convertToDtos(savedEntities)
 
         return UploadDto(
             count = savedDtoList.size,
@@ -91,10 +94,24 @@ class PandaService(
         )
     }
 
-    fun download(userUUID: String): List<AccountDto> {
+    fun upload(userUUID: String, uploadFileDto: UploadFileDto): Int {
         val userEntity = userService.findOrCreate(userUUID)
-        val accountEntities = accountRepository.findAllByUserEntity(userEntity)
-        return accountConverter.convertToDtos(accountEntities)
+        val inputEntities = converter.convertToEntities(userEntity, uploadFileDto.json)
+        when (uploadFileDto.type) {
+            ImportType.IMPORT -> import(inputEntities)
+            ImportType.REPLACE -> replace(userEntity, inputEntities)
+        }
+        return inputEntities.size
     }
+
+    fun import(inputList: List<AccountEntity>) {
+        accountRepository.saveAll(inputList)
+    }
+
+    fun replace(userEntity: UserEntity, inputList: List<AccountEntity>) {
+        accountRepository.deleteAllByUserEntity(userEntity)
+        accountRepository.saveAll(inputList)
+    }
+
 
 }

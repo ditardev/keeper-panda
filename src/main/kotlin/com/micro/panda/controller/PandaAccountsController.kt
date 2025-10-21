@@ -4,14 +4,10 @@ import com.micro.panda.appconfig.model.ApiRequest
 import com.micro.panda.appconfig.model.ApiResponse
 import com.micro.panda.appconfig.model.RequestInfoDto
 import com.micro.panda.model.dto.AccountDto
+import com.micro.panda.model.UploadFileDto
 import com.micro.panda.service.PandaService
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("\${server.endpoint.main}/accounts")
@@ -41,6 +37,15 @@ class PandaAccountsController(
     fun delete(@RequestBody request: ApiRequest<List<Long>>): ResponseEntity<*>? {
         val data = pandaService.delete(request.userUUID, request.data)
         return ResponseEntity.ok(ApiResponse.Success(true, data))
+    }
+
+    @PostMapping("/import")
+    fun import(@RequestBody request: ApiRequest<UploadFileDto>): ResponseEntity<*>? {
+        return ResponseEntity.ok(
+            ApiResponse.Success(
+                true,
+                pandaService.upload(request.userUUID, request.data))
+        )
     }
 
 }

@@ -24,9 +24,6 @@ spring:
     user: ${server.db.user}
     password: ${server.db.password}
     default-schema: ${server.db.schema}
-  instance:
-    status-page-url-path: api/${server.name}/actuator/info
-    health-check-url-path: api/${server.name}/actuator/health
   main:
     allow-bean-definition-overriding: true
 server:
@@ -38,10 +35,10 @@ server:
 eureka:
   client:
     service-url:
-      default-zone: http://${server.ip}:8761/eureka
+      defaultZone: http://${server.ip}:8761/eureka
   instance:
-    statusPageUrlPath: ${server.name}/info
-    healthCheckUrlPath: ${server.name}/health
+    statusPageUrlPath: /api/${server.name}/info
+    healthCheckUrlPath: /api/${server.name}/info/health
     instance-id: "${spring.application.name}:${spring.profiles.active}:${random.uuid}"
     #http://localhost:8080/gateway/info/health
 
@@ -61,7 +58,9 @@ springdoc:
 management:
   endpoint:
     info:
-      enabled: true
+      access: read_only
+    health:
+      access: read_only
   endpoints:
     web:
       exposure:

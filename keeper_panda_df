@@ -1,0 +1,6 @@
+FROM amazoncorretto:21 as build
+WORKDIR /panda
+ENTRYPOINT ["sh", "-c", "java -jar $JAR_FILE"]
+#ARG JAR_FILE=../builds/*.jar
+#COPY ${JAR_FILE} panda/PandaApplication.jar
+#ENTRYPOINT ["java","-jar","panda/PandaApplication.jar"]
