@@ -1,5 +1,6 @@
 server:
   appName: keeper-panda-service
+  name: panda
   port: 0
   ip: 192.168.192.194
   endpoint:
