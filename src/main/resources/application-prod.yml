@@ -4,11 +4,11 @@ server:
   port: 0
   ip: 192.168.192.194
   endpoint:
-    main: api/panda
+    main: api/v1/panda
   db:
     port: 11984
     name: keeper-postgres-db
-    schema: panda
+    schema: keeper_panda
     user: ditar
     password: keeperAdmin1984
   logging:

@@ -5,14 +5,16 @@ server:
   ip: 0.0.0.0
   eureka:
     enabled: true
+    hostname: host.docker.internal
+    prefer-ip: false
   endpoint:
-    main: api/panda
+    main: api/v1/panda
   db:
-    port: 11984
-    name: keeper-postgres-db
-    schema: auth
-    user: ditar
-    password: keeperAdmin1984
+    port: 5432
+    name: postgres
+    schema: keeper_panda
+    user: postgres
+    password: postgrespw
   logging:
     level: info
     filePath: ../logs/panda/panda.log

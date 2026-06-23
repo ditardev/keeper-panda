@@ -1,4 +1,4 @@
-#Spring Security Properties
+#Spring Properties
 spring:
   profiles:
     active: dev

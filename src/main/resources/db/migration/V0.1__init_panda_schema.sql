@@ -1,6 +1,6 @@
-create schema if not exists panda;
+create schema if not exists keeper_panda;
 
-SET search_path TO panda;
+SET search_path TO keeper_panda;
 
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS accouts;

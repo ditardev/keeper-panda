@@ -6,11 +6,11 @@ server:
   eureka:
     enabled: true
   endpoint:
-    main: api/panda
+    main: api/v1/panda
   db:
     port: 5432
     name: postgres
-    schema: panda
+    schema: keeper_panda
     user: postgres
     password: postgrespw
   logging:
