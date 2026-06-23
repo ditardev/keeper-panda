@@ -1,10 +1,12 @@
 server:
   appName: keeper-panda-service
-  name: panda
+  name: keeper_panda
   port: 0
   ip: 192.168.192.194
   endpoint:
     main: api/v1/panda
+  eureka:
+    enabled: true
   db:
     port: 11984
     name: keeper-postgres-db

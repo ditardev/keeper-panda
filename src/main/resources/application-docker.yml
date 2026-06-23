@@ -1,6 +1,6 @@
 server:
   appName: keeper-panda-service
-  name: panda
+  name: keeper_panda
   port: 0
   ip: 0.0.0.0
   eureka:
