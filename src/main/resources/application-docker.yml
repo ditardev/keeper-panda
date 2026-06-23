@@ -2,7 +2,7 @@ server:
   appName: keeper-panda-service
   name: keeper_panda
   port: 0
-  ip: 0.0.0.0
+  ip: host.docker.internal
   eureka:
     enabled: true
     hostname: host.docker.internal
