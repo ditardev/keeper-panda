@@ -10,6 +10,7 @@ interface AccountRepository : JpaRepository<AccountEntity, Long> {
 
 
     fun deleteAllByUserEntity(userEntity: UserEntity)
+    fun removeAllByUserEntity(userEntity: UserEntity)
 
     fun existsByUserEntityAndName(userEntity: UserEntity, name: String): Boolean
     fun existsByUserEntityAndId(userEntity: UserEntity, id: Long): Boolean

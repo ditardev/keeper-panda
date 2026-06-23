@@ -2,10 +2,10 @@ package com.micro.panda.service
 
 import com.hadiyarajesh.spring_security_demo.app.exception.ResourceNotFoundException
 import com.micro.panda.appconfig.exceptions.ResourceAlreadyExistException
-import com.micro.panda.model.dto.AccountDto
 import com.micro.panda.model.ImportType
-import com.micro.panda.model.dto.UploadDto
 import com.micro.panda.model.UploadFileDto
+import com.micro.panda.model.dto.AccountDto
+import com.micro.panda.model.dto.UploadDto
 import com.micro.panda.model.entity.AccountEntity
 import com.micro.panda.model.entity.UserEntity
 import com.micro.panda.repository.AccountRepository
@@ -109,7 +109,7 @@ class PandaService(
     }
 
     fun replace(userEntity: UserEntity, inputList: List<AccountEntity>) {
-        accountRepository.deleteAllByUserEntity(userEntity)
+        accountRepository.removeAllByUserEntity(userEntity)
         accountRepository.saveAll(inputList)
     }
 

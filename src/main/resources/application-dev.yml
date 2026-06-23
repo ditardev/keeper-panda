@@ -3,6 +3,8 @@ server:
   name: panda
   port: 8091
   ip: localhost
+  eureka:
+    enabled: true
   endpoint:
     main: api/panda
   db:

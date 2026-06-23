@@ -2,15 +2,17 @@ server:
   appName: keeper-panda-service
   name: panda
   port: 0
-  ip: 192.168.100.8
+  ip: 0.0.0.0
+  eureka:
+    enabled: true
   endpoint:
     main: api/panda
   db:
-    port: 5432
-    name: postgres
-    schema: panda
-    user: postgres
-    password: postgrespw
+    port: 11984
+    name: keeper-postgres-db
+    schema: auth
+    user: ditar
+    password: keeperAdmin1984
   logging:
     level: info
     filePath: ../logs/panda/panda.log

@@ -1,6 +1,6 @@
 #!/bin/bash
-readonly container_name=keeper_panda_c
-readonly image_name=keeper_panda_img
+readonly container_name=keeper-panda-c
+readonly image_name=keeper-panda-img
 
 echo $container_name
 echo $image_name
