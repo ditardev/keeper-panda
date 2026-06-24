@@ -6,7 +6,7 @@ server:
   eureka:
     enabled: true
     hostname: host.docker.internal
-    prefer-ip: false
+    prefer-ip: true
   endpoint:
     main: api/v1/panda
   db:
