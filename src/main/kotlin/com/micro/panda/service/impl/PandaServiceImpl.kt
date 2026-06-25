@@ -12,7 +12,6 @@ import com.micro.panda.model.entity.UserEntity
 import com.micro.panda.repository.AccountRepository
 import com.micro.panda.service.PandaService
 import com.micro.panda.service.UserService
-import com.micro.panda.service.converter.AccountConverter
 import com.micro.panda.service.extension.toDto
 import com.micro.panda.service.extension.toDtoList
 import com.micro.panda.service.extension.toEntity
@@ -23,7 +22,6 @@ import kotlin.math.abs
 @Service
 class PandaServiceImpl(
     private val accountRepository: AccountRepository,
-    private val converter: AccountConverter,
     private val userService: UserService,
     private val mailService: MailServiceImpl,
     private val typeService: TypeServiceImpl
@@ -51,7 +49,8 @@ class PandaServiceImpl(
                 userEntity,
                 mailService.findOrCreate(accountDto.email),
                 typeService.findOrCreate(accountDto.type)
-            ))
+            )
+        )
         return accountEntity.toDto()
     }
 
@@ -65,7 +64,8 @@ class PandaServiceImpl(
                 userEntity,
                 mailService.findOrCreate(accountDto.email),
                 typeService.findOrCreate(accountDto.type)
-            ))
+            )
+        )
         return accountEntity.toDto()
     }
 
@@ -103,7 +103,11 @@ class PandaServiceImpl(
 
     override fun upload(userUUID: String, uploadFileDto: UploadFileDto): Int {
         val userEntity = userService.findOrCreate(userUUID)
-        val inputEntities = converter.convertToEntities(userEntity, uploadFileDto.json)
+        val inputEntities = uploadFileDto.inputList.toEntityList(
+            userEntity = userEntity,
+            resolveMail = { email -> mailService.findOrCreate(email) },
+            resolveType = { type -> typeService.findOrCreate(type) }
+        )
         when (uploadFileDto.type) {
             ImportType.IMPORT -> import(inputEntities)
             ImportType.REPLACE -> replace(userEntity, inputEntities)

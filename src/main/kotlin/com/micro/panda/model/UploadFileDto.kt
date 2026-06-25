@@ -4,11 +4,5 @@ import com.micro.panda.model.dto.AccountDto
 
 data class UploadFileDto(
     val type: ImportType = ImportType.IMPORT,
-    val json: List<AccountDto>,
+    val inputList: List<AccountDto>,
 )
-
-enum class ImportType() {
-    IMPORT,
-    REPLACE;
-}
-
