@@ -1,20 +1,19 @@
 package com.micro.panda.service.utils
 
-import org.springframework.stereotype.Component
-import java.util.Random
+import java.util.*
 import java.util.regex.Pattern
 
-@Component
-class PasswordGenerator(
-    val lowCase: String = "qwertyuiopasdfghjklzxcvbnm",
-    val nums: String = "0123456789",
-    val pattern: String = "Rezcjlwige27690",
+object PasswordGenerator {
 
-    val minimumSize: Int = 3,
-    val maximumSize: Int = 49,
+    private val lowCase: String = "qwertyuiopasdfghjklzxcvbnm"
+    private val nums: String = "0123456789"
+    private val pattern: String = "Rezcjlwige27690"
+
+    private val minimumSize: Int = 3
+    private val maximumSize: Int = 49
 
     private val random: Random = Random()
-) {
+
     private val upperCasePattern = Pattern.compile("[A-Z]")
     private val lowerCasePattern = Pattern.compile("[a-z]")
     private val numberPattern = Pattern.compile("\\d")
