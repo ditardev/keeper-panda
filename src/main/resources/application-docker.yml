@@ -1,5 +1,5 @@
 server:
-  appName: keeper-panda-service
+  appName: keeper-panda
   name: keeper_panda
   port: 0
   ip: host.docker.internal
