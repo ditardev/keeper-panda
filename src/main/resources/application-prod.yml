@@ -2,13 +2,16 @@ server:
   appName: keeper-panda
   name: keeper_panda
   port: 0
-  ip: 192.168.192.194
+  ip: host.docker.internal
   endpoint:
     main: api/v1/panda
   eureka:
     enabled: true
+    hostname: host.docker.internal
+    prefer-ip: true
   db:
-    port: 11984
+    host: keeper-postgres
+    port: 5432
     name: keeper-postgres-db
     schema: keeper_panda
     user: ditar
